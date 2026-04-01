@@ -13,7 +13,7 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("HireMaster backend is running 🚀");
 });
-const stripe = new Stripe("sk_test_YOUR_KEY");
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL
