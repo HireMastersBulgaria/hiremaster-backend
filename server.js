@@ -10,7 +10,9 @@ const { Pool } = pkg;
 const app = express();
 app.use(cors());
 app.use(express.json());
-
+app.get("/", (req, res) => {
+  res.send("HireMaster backend is running 🚀");
+});
 const stripe = new Stripe("sk_test_YOUR_KEY");
 
 const pool = new Pool({
