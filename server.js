@@ -42,7 +42,7 @@ app.post("/api/register", async (req, res) => {
     const { email, password, companyName } = req.body;
 
     if (!email || !password || !companyName) {
-      return res.status(400).json({ error: "Missing required fields" });
+      return res.status(400).json({ error: "Missing fields" });
     }
 
     const existingUser = await pool.query(
@@ -69,6 +69,7 @@ app.post("/api/register", async (req, res) => {
     );
 
     res.status(201).json(user.rows[0]);
+
   } catch (error) {
     console.error("REGISTER ERROR:", error);
     res.status(500).json({
@@ -98,7 +99,9 @@ app.post("/api/login", async (req, res) => {
     }
 
     const token = jwt.sign(user.rows[0], JWT_SECRET);
+
     res.json({ token });
+
   } catch (error) {
     console.error("LOGIN ERROR:", error);
     res.status(500).json({
@@ -119,6 +122,7 @@ app.post("/api/positions", auth, async (req, res) => {
     );
 
     res.json(result.rows[0]);
+
   } catch (error) {
     console.error("CREATE POSITION ERROR:", error);
     res.status(500).json({
@@ -137,6 +141,7 @@ app.get("/api/positions", auth, async (req, res) => {
     );
 
     res.json(result.rows);
+
   } catch (error) {
     console.error("GET POSITIONS ERROR:", error);
     res.status(500).json({
@@ -173,6 +178,7 @@ app.post("/api/create-checkout", auth, async (req, res) => {
     });
 
     res.json({ url: session.url });
+
   } catch (error) {
     console.error("CHECKOUT ERROR:", error);
     res.status(500).json({
@@ -201,6 +207,7 @@ app.get("/api/dashboard", auth, async (req, res) => {
       positions: positions.rows[0].count,
       candidates: candidates.rows[0].count
     });
+
   } catch (error) {
     console.error("DASHBOARD ERROR:", error);
     res.status(500).json({
